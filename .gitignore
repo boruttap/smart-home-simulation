@@ -1,0 +1,5 @@
+database/*
+webserver/node_modules/
+webserver/assets/*
+webserver/package-lock.json
+webserver/package.josn-to-use

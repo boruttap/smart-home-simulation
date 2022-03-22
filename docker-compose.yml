@@ -1,0 +1,33 @@
+version: "3.9"                                  # Docker Compose Version
+services:                                       #
+    database:                                   # name des Containers
+        image: mariadb                          # das Ausgewahlte Image
+        volumes:
+        - ./database:/var/lib/mysql             # Als Backup falls man via phpmyadmin kein dump erstellt
+        ports: 
+         - 3306:3306                            # Port Einstellung
+        environment:                            # Umgebungsvariablen.
+         - MARIADB_ROOT_PASSWORD=rootpassword   # Rootpasswort
+         - MARIADB_DATABASE=smartHomeDB         # erstellte Start Datenbank
+         - MARIADB_USER=smartHome               # angelegter Benutzer
+         - MARIADB_PASSWORD=passwort123         # passwort des Benutzer
+    phpmyadmin:                                 # Name des neuen Service
+        image: phpmyadmin                       # image 
+        ports: 
+         - 8081:80                              # Port
+        environment:                            # Umgebungsvariable fuer phpmyadmin
+         - PMA_HOST=database                    #
+    webserver:
+        image: node   
+        # 
+        # build:
+          # context: .
+          # dockerfile: Dockerfile
+        stdin_open: true
+        tty: true
+
+        
+        volumes:
+        - ./webserver/:/app/
+        ports:
+         - 80:3000
